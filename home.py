@@ -78,7 +78,7 @@ def populate(f,lb,rb,nr):
 def main_page():
   st.title("Area-Under-The-Curve Calculator")
   
-  col1,col2 = st.columns(2)
+  col1,col2 = st.columns([1,2])
   with col1:
     func = st.text_input("Please input your function!",value='x' )
     
@@ -199,25 +199,7 @@ def main_page():
               trapy.extend((0,lefty,righty,0,0))
             fig.add_trace(go.Scatter(x=trapx,y=trapy,showlegend=False))
 
-            '''''
-            trapx = []
-            trapy = []
-            leftx = left_bound
-            rightx = left_bound + interval
-            lefty = ff(func,leftx)
-            righty = ff(func,rightx)
-            trapx.extend((leftx,leftx,rightx,rightx))
-            trapy.extend((0,lefty,righty,0))
-            for i in range(num_rec*2):
-              fig.add_trace(go.Scatter(x=trapx,y=trapy))
-              trapx.extend("None")
-              leftx = rightx
-              rightx = leftx + interval
-              lefty = ff(func,leftx)
-              righty = ff(func,rightx)
-              trapx.extend((leftx,leftx,rightx,rightx))
-              trapy.extend((0,lefty,righty,0))
-              '''''
+
             
 
           with plot_spot:
