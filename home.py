@@ -102,7 +102,9 @@ def main_page():
 
         
         #for i in range(round(left_bound),round(right_bound)+1):
-        if left_bound != right_bound:
+        if left_bound == right_bound:
+          st.warning("Please set bounds to display graph!")
+        else:
           i = round(left_bound)
           while i < round(right_bound):
             x1.append(i)
