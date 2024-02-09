@@ -108,7 +108,7 @@ def main_page():
             x1.append(i)
             y1.append(ff(func,i))
             i = i+0.1
-
+            
           fig = px.line(x=x1,y=y1, line_shape="spline")
           fig.add_hline(y=0, line_color='white',line_width = 0.5) 
           fig.add_vline(x=0, line_color='white',line_width = 0.5)
@@ -186,11 +186,18 @@ def main_page():
             rightx = left_bound + interval
             lefty = ff(func,leftx)
             righty = ff(func,rightx)
-            trapx.extend((leftx,leftx,rightx,rightx))
-            trapy.extend((0,lefty,righty,0))
-            fig.add_trace(go.Scatter(x=trapx,y=trapy))
-            for i in range(num_rec):
-              pass
+            trapx.extend((leftx,leftx,rightx,rightx,leftx))
+            trapy.extend((0,lefty,righty,0,0))
+            for i in range(num_rec-1):
+              trapx.append("None")
+              trapy.append("None")
+              leftx = rightx
+              rightx = leftx + interval
+              lefty = ff(func,leftx)
+              righty = ff(func,rightx)
+              trapx.extend((leftx,leftx,rightx,rightx,leftx))
+              trapy.extend((0,lefty,righty,0,0))
+            fig.add_trace(go.Scatter(x=trapx,y=trapy,showlegend=False))
 
             '''''
             trapx = []
@@ -214,7 +221,7 @@ def main_page():
             
 
           with plot_spot:
-            st.plotly_chart(fig)
+            st.plotly_chart(fig,use_container_width=True)
           #st.write(x1)
           #st.write(y1)
 
