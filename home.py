@@ -58,6 +58,17 @@ def T(func,lb, rb, nr):
     x = x + inter
   return ( 0.5) * (sum)
 
+def formatFunction(func):
+    form_func = func
+    elements = ["cos(","sin(","tan(","sec(","csc(","cot(","^"]
+    re_elements = ["math.cos(","math.sin(","math.tan(","math.acos(","math.asin(","math.atan(","**"]
+    element_test = ["^"]
+    for i in range(len(elements)):
+        form_func = form_func.replace(elements[i],re_elements[i])
+    #st.write(form_func)
+    return(form_func)
+
+
 
 #num_rec = 4
 #left_bound = 0
@@ -81,7 +92,7 @@ def main_page():
   col1,col2 = st.columns([1,2])
   with col1:
     func = st.text_input("Please input your function!",value='x' )
-    
+    func = formatFunction(func)
     st.caption("Please format your equation using * for multiplication, / for division, and ** for exponents, and use parentheses when necessary!!")
     left_bound = st.number_input("Left Bound")
     right_bound = st.number_input("Right Bound")
