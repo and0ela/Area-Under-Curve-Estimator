@@ -94,8 +94,10 @@ def populate(f,lb,rb,nr):
     return None
 
 def main_page():
-  st.title("Area-Under-The-Curve Calculator")
-  
+  st.title("Area-Under-The-Curve Estimator")
+  st.write("Use Right Endpoints, Left Endpoints, Midpoints, and Trapezoids to estimate the area under a curve! ")
+  #st.write("")
+  st.divider()
   col1,col2 = st.columns([1,2])
   with col1:
     func = st.text_input("Please input your function!",value='x' )
