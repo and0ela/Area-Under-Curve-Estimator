@@ -11,6 +11,8 @@ def f(x):
 def ff(func,x):
   try:
     return eval(func)
+  except ZeroDivisionError:
+    return None
   except:
     st.warning("Please enter a valid function.")
 
@@ -19,8 +21,9 @@ def L(func,lb, rb, nr):
   sum = 0
   x = lb
   for i in range((nr)):
-    sum = sum + ff(func,x)
-    x = x + ((rb - lb) / nr)
+    if ff(func,x) != None:
+      sum = sum + ff(func,x)
+      x = x + ((rb - lb) / nr)
     #print(i)
     #print(sum)
   return ((rb - lb) / nr) * (sum)
@@ -30,8 +33,9 @@ def R(func,lb, rb, nr):
   sum = 0
   x = lb + ((rb - lb) / nr)
   for i in range((nr)):
-    sum = sum + ff(func,x)
-    x = x + ((rb - lb) / nr)
+    if ff(func,x) != None:
+      sum = sum + ff(func,x)
+      x = x + ((rb - lb) / nr)
     #print(i)
     #print(sum)
   return ((rb - lb) / nr) * (sum)
@@ -41,8 +45,9 @@ def M(func,lb, rb, nr):
   sum = 0
   x = lb + (0.5 * ((rb - lb) / nr))
   for i in range((nr)):
-    sum = sum + ff(func,x)
-    x = x + ((rb - lb) / nr)
+    if ff(func,x) != None:
+      sum = sum + ff(func,x)
+      x = x + ((rb - lb) / nr)
     #print(i)
     #print(sum)
   return ((rb - lb) / nr) * (sum)
@@ -53,20 +58,22 @@ def T(func,lb, rb, nr):
   x = lb
   inter = (rb - lb) / nr
   for i in range(nr):
+    if ff(func,x) != None:
     #print(f(x))
-    sum = sum + (inter*(ff(func,x) + ff(func,x + inter)))
-    x = x + inter
+      sum = sum + (inter*(ff(func,x) + ff(func,x + inter)))
+      x = x  + inter
   return ( 0.5) * (sum)
 
 def formatFunction(func):
     form_func = func
-    elements = ["cos(","sin(","tan(","sec(","csc(","cot(","^"]
-    re_elements = ["math.cos(","math.sin(","math.tan(","math.acos(","math.asin(","math.atan(","**"]
+    elements = ["cos(","sin(","tan(","sec(","csc(","cot(","^","pi:"]
+    re_elements = ["math.cos(","math.sin(","math.tan(","1/math.cos(","1/math.sin(","1/math.tan(","**","math.pi"]
     element_test = ["^"]
     for i in range(len(elements)):
         form_func = form_func.replace(elements[i],re_elements[i])
     #st.write(form_func)
     return(form_func)
+
 
 
 
@@ -93,14 +100,15 @@ def main_page():
   with col1:
     func = st.text_input("Please input your function!",value='x' )
     func = formatFunction(func)
-    st.caption("Please format your equation using * for multiplication, / for division, and ** for exponents, and use parentheses when necessary!!")
+    st.caption("As a warming, inverse trigonometric functions can be wonky. Use at your own risk!")
     left_bound = st.number_input("Left Bound")
     right_bound = st.number_input("Right Bound")
     if right_bound < left_bound:
       st.warning("Please ensure that your left bound is less than your right bound!")
     num_rec = st.number_input("Rectangles",0,None,4,1)
-    st.write(func)
+    st.write("Python Syntax of function:", func)
     populated = populate(func,left_bound,right_bound,num_rec)
+    #st.write(populated)
     #st.write(populated)
     #st.write(type(populated))
     if populated is not None:
@@ -120,8 +128,12 @@ def main_page():
           while i < round(right_bound):
             x1.append(i)
             y1.append(ff(func,i))
-            i = i+0.1
+            i = i+0.01
+
+
+          #Try to fix graph lines for functions that explode :D
             
+          
           fig = px.line(x=x1,y=y1, line_shape="spline")
           fig.add_hline(y=0, line_color='white',line_width = 0.5) 
           fig.add_vline(x=0, line_color='white',line_width = 0.5)
