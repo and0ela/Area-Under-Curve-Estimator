@@ -136,7 +136,7 @@ def main_page():
           #Try to fix graph lines for functions that explode :D
             
           
-          fig = px.line(x=x1,y=y1, line_shape="spline")
+          fig = px.line(x=x1,y=y1, line_shape="linear")
           fig.add_hline(y=0, line_color='white',line_width = 0.5) 
           fig.add_vline(x=0, line_color='white',line_width = 0.5)
           fig.update_xaxes(showline=True, linewidth=2, linecolor='white')
